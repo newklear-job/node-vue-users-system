@@ -1,0 +1,28 @@
+GET http://localhost:3333/v1/users
+###
+
+
+GET http://localhost:3333/v1/users/:id
+###
+
+
+POST http://localhost:3333/v1/users
+Content-Type: application/json
+
+{
+
+}
+###
+
+
+PUT http://localhost:3333/v1/users/:id
+Content-Type: application/json
+
+{
+
+}
+###
+
+
+DELETE http://localhost:3333/v1/users/:id
+###

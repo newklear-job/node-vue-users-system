@@ -25,6 +25,7 @@
   "dependencies": {
     "@adonisjs/core": "^5.0.4-preview-rc-2.1",
     "@adonisjs/repl": "^1.1.6",
+    "adonis5-swagger": "^1.0.6",
     "proxy-addr": "^2.0.6",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19"
