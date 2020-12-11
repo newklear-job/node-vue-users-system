@@ -1,9 +1,0 @@
-services:
-  node:
-    build: .
-    ports:
-      - "3333:3333"
-  redis:
-    image: "redis:latest"
-  mysql:
-    image: "mysql:latest"
