@@ -1,7 +1,7 @@
 FROM node:latest
 
 # создание директории приложения
-WORKDIR /usr/src/users-system
+WORKDIR /usr/src/users-system/node
 
 # установка зависимостей
 # символ астериск ("*") используется для того чтобы по возможности 
