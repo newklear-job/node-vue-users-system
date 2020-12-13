@@ -1,3 +1,5 @@
+version: '3'
+
 networks:
   users-system:
 
@@ -7,7 +9,7 @@ services:
       context: .
       dockerfile: node.dockerfile
     container_name: node-users-system
-    working_dir: /usr/src/users-system/node
+    tty: true
     ports:
       - "3333:3333"
     volumes:
@@ -27,7 +29,6 @@ services:
       dockerfile: mysql.dockerfile
     container_name: mysql-users-system
     restart: always
-    tty: true
     environment:
       MYSQL_DATABASE: 'userSystem'
       MYSQL_USER: 'user'
@@ -36,7 +37,7 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - ./docker/mysql/persisted-database:/var/lib/mysql
       - ./docker/mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./docker/mysql/persistent-database:/var/lib/mysql
     networks:
       - users-system
