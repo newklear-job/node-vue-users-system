@@ -28,7 +28,9 @@
     "types": [
       "@adonisjs/core",
       "@adonisjs/repl",
-      "adonis5-swagger"
+      "adonis5-swagger",
+      "@adonisjs/lucid",
+      "@adonisjs/redis"
     ]
   }
 }
