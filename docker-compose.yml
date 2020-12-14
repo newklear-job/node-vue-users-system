@@ -30,7 +30,7 @@ services:
     container_name: mysql-users-system
     restart: always
     environment:
-      MYSQL_DATABASE: 'userSystem'
+      MYSQL_DATABASE: 'usersSystem'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: '123456'
       MYSQL_ROOT_PASSWORD: '123456'
