@@ -23,12 +23,14 @@ import HealthCheck from '@ioc:Adonis/Core/HealthCheck'
 
 Route.get('health', async ({ response }) => {
   const report = await HealthCheck.getReport()
-  
-  return report.healthy
-    ? response.ok(report)
-    : response.badRequest(report)
+
+  return report.healthy ? response.ok(report) : response.badRequest(report)
 })
 
 Route.group(() => {
-  Route.resource('users', 'UsersController').apiOnly()
+  Route.post('/login', 'AuthController.login')
+
+  Route.group(() => {
+    Route.resource('users', 'UsersController').apiOnly()
+  })
 }).prefix('v1')

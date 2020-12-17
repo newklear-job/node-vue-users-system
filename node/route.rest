@@ -26,3 +26,14 @@ Content-Type: application/json
 
 DELETE http://localhost:3333/v1/users/:id
 ###
+
+POST http://localhost:3333/v1/login
+Content-Type: application/json
+
+{
+  "email": "admin@admin.admin",
+  "password": "123456"
+}
+
+###
+
