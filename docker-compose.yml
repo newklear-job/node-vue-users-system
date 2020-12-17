@@ -42,4 +42,4 @@ services:
     networks:
       - users-system
 volumes:
-  users-system-db
+  users-system-db:
