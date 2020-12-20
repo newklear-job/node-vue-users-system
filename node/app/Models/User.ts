@@ -13,16 +13,13 @@ export default class User extends BaseModel {
   public lastName: string
 
   @column()
-  public gender: boolean
+  public gender: string
 
   @column()
   public email: string
 
   @column({ serializeAs: null })
   public password: string
-
-  @column()
-  public rememberMeToken?: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

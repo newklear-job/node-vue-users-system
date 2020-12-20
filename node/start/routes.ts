@@ -28,9 +28,10 @@ Route.get('health', async ({ response }) => {
 })
 
 Route.group(() => {
+  Route.post('/register', 'AuthController.register')
   Route.post('/login', 'AuthController.login')
 
   Route.group(() => {
     Route.resource('users', 'UsersController').apiOnly()
-  })
+  }).middleware('auth')
 }).prefix('v1')

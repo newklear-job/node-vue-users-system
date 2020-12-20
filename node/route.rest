@@ -1,4 +1,29 @@
+POST http://localhost:3333/v1/register
+Content-Type: application/json
+
+{
+  "email": "admin@admin.admin",
+  "password": "123456",
+  "password_confirmation": "123456",
+  "firstName": "Vitalik",
+  "lastName": "Peterherin",
+  "gender": "fd"
+}
+
+###
+
+POST http://localhost:3333/v1/login
+Content-Type: application/json
+
+{
+  "email": "admin@admin.admin",
+  "password": "123456"
+}
+
+###
+
 GET http://localhost:3333/v1/users
+Authorization: Bearer Y2tpeGxmMWljMDAwMDE2bGgwazlmYXB5OA.RsmNHz0a0CYvd883c426qhbfyl6yRtH-2_xPvgVFnLQj8PhxmG2MoXvLpwaY
 ###
 
 
@@ -27,13 +52,5 @@ Content-Type: application/json
 DELETE http://localhost:3333/v1/users/:id
 ###
 
-POST http://localhost:3333/v1/login
-Content-Type: application/json
 
-{
-  "email": "admin@admin.admin",
-  "password": "123456"
-}
-
-###
 
