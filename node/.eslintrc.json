@@ -3,5 +3,9 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": ["error"]
+  },
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "createDefaultProgram": true // deprecated. Temporary fix of Parsing error: "parserOptions.project" has been set for @typescript-eslint/parser.  https://github.com/typescript-eslint/typescript-eslint/issues/1723#issuecomment-626766041
   }
 }
