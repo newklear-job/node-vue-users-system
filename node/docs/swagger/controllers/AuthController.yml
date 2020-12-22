@@ -62,7 +62,7 @@
                     description: The user password confirmation
                     example: '123456'
     responses:
-      200:
+      201:
         description: Newly created user.
         content:
           application/json:
