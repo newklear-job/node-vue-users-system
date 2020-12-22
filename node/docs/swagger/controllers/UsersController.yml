@@ -1,0 +1,11 @@
+/v1/users:
+  get:
+    tags:
+      - Users
+    summary: Users index
+    responses:
+      200:
+        description: Get all users
+        example:
+          message: Hello Guess (temporary)
+

@@ -18,7 +18,11 @@ export default {
       },
     },
 
-    apis: ['app/**/*.ts', 'docs/swagger/**/*.yml', 'start/routes.ts'],
+    apis: [
+      // 'app/**/*.ts',
+      'docs/swagger/**/*.yml',
+      // 'start/routes.ts'
+    ],
     basePath: '/',
   },
 } as SwaggerConfig
