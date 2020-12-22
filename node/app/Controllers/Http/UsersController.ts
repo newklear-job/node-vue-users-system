@@ -26,9 +26,9 @@ export default class UsersController {
   public async update({params, request, response}: HttpContextContract) {
     const user = User.findOrFail(params.id)
     const userData = request.validate(UpdateUserValidator)
-    await Promise.all([userData, user]);
-    user.merge(userData)
-    await user.save()
+    const [ userDataResolved, userResolved ] = await Promise.all([userData, user]);
+    userResolved.merge(userDataResolved)
+    await userResolved.save()
     return response.ok(user)
   }
 

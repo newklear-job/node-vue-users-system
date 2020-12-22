@@ -5,11 +5,27 @@
     summary: Users index
     security:
       - bearerToken: []
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+        required: true
+        description: Number of page
+        example: 1
     responses:
       200:
         description: Get all users
-        example:
-          message: Hello Guess (temporary)
+        content:
+          application/json:
+            schema:
+              properties:
+                meta:
+                  $ref: '#/components/schemas/PaginationMeta'
+                data:
+                  type: array
+                  items:
+                    $ref: '#/definitions/schemas/User'
       401:
         $ref: '#/components/responses/UnauthorizedError'
 
