@@ -1,0 +1,10 @@
+components:
+  securitySchemes:
+    bearerToken:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid

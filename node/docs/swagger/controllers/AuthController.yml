@@ -2,7 +2,8 @@
   post:
     tags:
       - Login
-    description: Login a user
+    summary: Login a user
+    description: Login a user, get bearer token
     requestBody:
       required: true
       content:
@@ -45,6 +46,7 @@
   post:
     tags:
       - Register
+    summary: Register a new user
     description: Register new user
     requestBody:
       required: true

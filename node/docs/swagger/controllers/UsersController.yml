@@ -3,9 +3,13 @@
     tags:
       - Users
     summary: Users index
+    security:
+      - bearerToken: []
     responses:
       200:
         description: Get all users
         example:
           message: Hello Guess (temporary)
+      401:
+        $ref: '#/components/responses/UnauthorizedError'
 
