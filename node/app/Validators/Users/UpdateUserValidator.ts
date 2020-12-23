@@ -23,15 +23,17 @@ export default class StoreUserValidator {
    *     ])
    *    ```
    */
+  public cacheKey = this.ctx.routeKey
+
   public schema = schema.create({
     email: schema.string({}, [
       rules.email(),
       rules.unique({ table: 'users', column: 'email', whereNot: { id: this.ctx.params.id } }),
     ]),
-    password: schema.string({}, [rules.minLength(4), rules.maxLength(10), rules.confirmed()]),
+    password: schema.string.optional({}, [rules.minLength(4), rules.maxLength(10), rules.confirmed()]),
     first_name: schema.string({}, [rules.minLength(1), rules.maxLength(15)]),
     last_name: schema.string({}, [rules.minLength(1), rules.maxLength(15)]),
-    gender: schema.string({}, [rules.in({ acceptableValues: ['m', 'f'] })]),
+    gender: schema.string.optional({}, [rules.in({ acceptableValues: ['m', 'f'] })]),
   })
 
   /**

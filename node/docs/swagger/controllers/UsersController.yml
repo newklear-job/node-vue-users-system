@@ -59,8 +59,6 @@
               $ref: "#/definitions/schemas/User"
       422:
         description: Validation errors.
-        example:
-          message: Hello Guess (temporary)
 
 /v1/users/{userId}:
   get:
@@ -130,6 +128,8 @@
         $ref: '#/components/responses/UnauthorizedError'
       404:
         description: User not found.
+      422:
+        description: Validation errors.
 
   delete:
     tags:
