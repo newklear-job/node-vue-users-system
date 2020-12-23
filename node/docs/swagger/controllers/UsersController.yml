@@ -3,8 +3,9 @@
     tags:
       - Users
     summary: Users index
+    description: Users index
     security:
-      - bearerToken: []
+      - bearerToken: [ ]
     parameters:
       - in: query
         name: page
@@ -28,4 +29,128 @@
                     $ref: '#/definitions/schemas/User'
       401:
         $ref: '#/components/responses/UnauthorizedError'
+
+  post:
+    tags:
+      - Users
+    summary: Create new user
+    description: Create new user
+    security:
+      - bearerToken: [ ]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/definitions/schemas/UserWithoutId"
+              - type: object
+              - properties:
+                  password_confirmation:
+                    type: integer
+                    description: The user password confirmation
+                    example: '123456'
+    responses:
+      201:
+        description: Newly created user.
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/schemas/User"
+      422:
+        description: Validation errors.
+        example:
+          message: Hello Guess (temporary)
+
+/v1/users/{userId}:
+  get:
+    tags:
+      - Users
+    summary: Users index
+    description: Users index
+    security:
+      - bearerToken: [ ]
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: integer
+        required: true
+        description: User integer
+        example: 1
+    responses:
+      200:
+        description: Get user
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/schemas/User"
+      401:
+        $ref: '#/components/responses/UnauthorizedError'
+      404:
+        description: User not found.
+
+  patch:
+    tags:
+      - Users
+    summary: Update user
+    description: Update user
+    security:
+      - bearerToken: [ ]
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: integer
+        required: true
+        description: User integer
+        example: 1
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/definitions/schemas/UserWithoutId"
+              - type: object
+              - properties:
+                  password_confirmation:
+                    type: integer
+                    description: The user password confirmation
+                    example: '123456'
+                    required: false
+    responses:
+      200:
+        description: Get user
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/schemas/User"
+      401:
+        $ref: '#/components/responses/UnauthorizedError'
+      404:
+        description: User not found.
+
+  delete:
+    tags:
+      - Users
+    summary: Update user
+    description: Update user
+    security:
+      - bearerToken: [ ]
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: integer
+        required: true
+        description: User integer
+        example: 1
+    responses:
+      202:
+        description: User accepter to deletion
+      401:
+        $ref: '#/components/responses/UnauthorizedError'
+      404:
+        description: User not found.
 

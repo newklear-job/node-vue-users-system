@@ -23,12 +23,11 @@ definitions:
           type: string
           description: The user password.
           example: '123456'
-
       required:
-        - firstName
-        - lastName
+        - first_name
+        - last_name
         - email
-        - password
+
     User:
       allOf:
         - $ref: "#/definitions/schemas/UserWithoutId"

@@ -70,5 +70,4 @@
               $ref: "#/definitions/schemas/User"
       422:
         description: Validation errors.
-        example:
-          message: Hello Guess (temporary)
+
