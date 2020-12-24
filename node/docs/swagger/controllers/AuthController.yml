@@ -40,7 +40,7 @@
                   description: Token
                   example: Y2tpejNvZWljMDAwMHg2bGgwdXh4aGdlZQ.gX2pd7zHYKAdOCl17mJd9PJWRZsN_52zxz0HDnrLNi4_lqy3NT3iqxRa5LWz
       400:
-        description: authentication failed
+        $ref: '#/components/responses/BadRequest'
 
 /v1/register:
   post:
@@ -69,5 +69,5 @@
             schema:
               $ref: "#/definitions/schemas/User"
       422:
-        description: Validation errors.
+        $ref: '#/components/responses/UnprocessableEntity'
 

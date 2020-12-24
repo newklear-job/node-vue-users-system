@@ -28,7 +28,7 @@
                   items:
                     $ref: '#/definitions/schemas/User'
       401:
-        $ref: '#/components/responses/UnauthorizedError'
+        $ref: '#/components/responses/Unauthorized'
 
   post:
     tags:
@@ -57,8 +57,10 @@
           application/json:
             schema:
               $ref: "#/definitions/schemas/User"
+      401:
+        $ref: '#/components/responses/Unauthorized'
       422:
-        description: Validation errors.
+        $ref: "#/components/responses/UnprocessableEntity"
 
 /v1/users/{userId}:
   get:
@@ -84,9 +86,9 @@
             schema:
               $ref: "#/definitions/schemas/User"
       401:
-        $ref: '#/components/responses/UnauthorizedError'
+        $ref: '#/components/responses/Unauthorized'
       404:
-        description: User not found.
+        $ref: '#/components/responses/NotFound'
 
   patch:
     tags:
@@ -125,11 +127,11 @@
             schema:
               $ref: "#/definitions/schemas/User"
       401:
-        $ref: '#/components/responses/UnauthorizedError'
+        $ref: '#/components/responses/Unauthorized'
       404:
-        description: User not found.
+        $ref: '#/components/responses/NotFound'
       422:
-        description: Validation errors.
+        $ref: '#/components/responses/UnprocessableEntity'
 
   delete:
     tags:
@@ -148,9 +150,9 @@
         example: 1
     responses:
       202:
-        description: User accepter to deletion
+        description: User accepted to deletion
       401:
-        $ref: '#/components/responses/UnauthorizedError'
+        $ref: '#/components/responses/Unauthorized'
       404:
-        description: User not found.
+        $ref: '#/components/responses/NotFound'
 
