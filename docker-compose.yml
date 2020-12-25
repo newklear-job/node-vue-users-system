@@ -16,6 +16,18 @@ services:
     networks:
       - users-system
 
+  front-end:
+    build:
+      context: .
+      dockerfile: vue.dockerfile
+    container_name: vue-users-system
+    ports:
+      - "3000:8080"
+    volumes:
+      - ./vue:/usr/src/users-system/vue
+    networks:
+      - users-system
+
   redis:
     image: "redis:latest"
     container_name: redis-users-system
