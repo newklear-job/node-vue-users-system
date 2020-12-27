@@ -1,13 +1,21 @@
 <template>
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <router-link to="/users" class="navbar-brand">Users list</router-link>
-    <div class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <router-link to="/users/create" class="nav-link"
           >Create user</router-link
         >
       </li>
-    </div>
+    </ul>
+    <ul class="navbar-nav mr-right">
+      <li class="nav-item">
+        <router-link to="/login" class="nav-link">Login</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/register" class="nav-link">Register</router-link>
+      </li>
+    </ul>
   </nav>
 
   <div class="container mt-3">
