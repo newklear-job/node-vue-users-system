@@ -9,12 +9,19 @@
       </li>
     </ul>
     <ul class="navbar-nav mr-right">
-      <li class="nav-item">
-        <router-link to="/login" class="nav-link">Login</router-link>
-      </li>
-      <li class="nav-item">
-        <router-link to="/register" class="nav-link">Register</router-link>
-      </li>
+      <template v-if="isLoggedIn">
+        <li class="nav-item">
+          <a @click.prevent="logout" class="nav-link">Logout</a>
+        </li>
+      </template>
+      <template v-else>
+        <li class="nav-item">
+          <router-link to="/login" class="nav-link">Login</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/register" class="nav-link">Register</router-link>
+        </li>
+      </template>
     </ul>
   </nav>
 
@@ -26,6 +33,24 @@
     </router-view>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent, computed } from "vue";
+import { useStore } from "@/store";
+
+export default defineComponent({
+  setup() {
+    const store = useStore();
+
+    const isLoggedIn = computed(() => store.getters.isLoggedIn);
+    function logout() {
+      store.dispatch("logout", null);
+    }
+
+    return { isLoggedIn, logout };
+  }
+});
+</script>
 
 <style>
 #app {

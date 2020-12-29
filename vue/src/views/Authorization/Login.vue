@@ -2,26 +2,49 @@
   <div class="create-form">
     <div class="form-group">
       <label for="email">Login</label>
-      <input type="text" class="form-control" id="email" required />
+      <input
+        v-model="credentials.email"
+        type="text"
+        class="form-control"
+        id="email"
+        required
+      />
     </div>
 
     <div class="form-group">
       <label for="password">Password</label>
-      <input class="form-control" id="password" required />
+      <input
+        v-model="credentials.password"
+        class="form-control"
+        id="password"
+        required
+      />
     </div>
 
     <div>
-      <button class="btn btn-success">Login</button>
+      <button class="btn btn-success" @click.prevent="login">Login</button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
+import { useStore } from "@/store";
 
 export default defineComponent({
   setup() {
-    return {};
+    const store = useStore();
+    const credentials = reactive({
+      email: null,
+      password: null
+    });
+
+    async function login() {
+      const loginResult = await store.dispatch("login", credentials);
+      console.log(loginResult);
+    }
+
+    return { credentials, login };
   }
 });
 </script>
