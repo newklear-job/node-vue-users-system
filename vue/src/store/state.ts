@@ -1,5 +1,7 @@
+import { VueCookieNext } from "vue-cookie-next";
+
 export const state = {
-  token: localStorage.getItem("user-token") || "" //todo: unsecure, redo to cookies
+  token: VueCookieNext.getCookie("token") || ""
 };
 
 export type State = typeof state;

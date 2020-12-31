@@ -2,6 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import { store } from "@/store";
+import { VueCookieNext } from "vue-cookie-next";
 
 import axios from "axios";
 
@@ -16,4 +17,7 @@ axios.interceptors.request.use(function(config) {
 createApp(App)
   .use(store)
   .use(router)
+  .use(VueCookieNext)
   .mount("#app");
+
+VueCookieNext.config({ expire: "7d" });

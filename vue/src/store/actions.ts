@@ -26,12 +26,10 @@ export const actions: ActionTree<State, State> & Actions = {
         .post(`${process.env.VUE_APP_API_DOMAIN}/login`, credentials)
         .then(response => {
           const token = `${response.data.type} ${response.data.token}`;
-          localStorage.setItem("user-token", token); // store the token in localstorage
           commit("login", token);
           resolve(response);
         })
         .catch(err => {
-          localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
           commit("login", ""); // clear token from state
           reject(err);
         });
@@ -40,7 +38,6 @@ export const actions: ActionTree<State, State> & Actions = {
 
   logout({ commit }) {
     return new Promise(resolve => {
-      localStorage.removeItem("user-token"); // clear your user's token from localstorage
       commit("login", ""); // clear token from state
       resolve();
     });
