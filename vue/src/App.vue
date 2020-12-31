@@ -1,5 +1,6 @@
 <template>
   <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <!--    todo: hide links based on meta data for unauthorised users-->
     <router-link to="/users" class="navbar-brand">Users list</router-link>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">

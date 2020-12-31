@@ -3,16 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import { store } from "@/store";
 import { VueCookieNext } from "vue-cookie-next";
-
-import axios from "axios";
-
-axios.interceptors.request.use(function(config) {
-  if (store.getters.isLoggedIn) {
-    const token = store.getters.token;
-    config.headers.Authorization = token;
-  }
-  return config;
-});
+import { setup } from "@/setup";
 
 createApp(App)
   .use(store)
@@ -20,4 +11,4 @@ createApp(App)
   .use(VueCookieNext)
   .mount("#app");
 
-VueCookieNext.config({ expire: "7d" });
+setup();

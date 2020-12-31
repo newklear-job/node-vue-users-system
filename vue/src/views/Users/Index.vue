@@ -105,11 +105,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import axios from "axios";
 
 export default defineComponent({
   setup() {
-    return {};
+    const users = ref([]);
+    function getUsers() {
+      axios
+        .get(`${process.env.VUE_APP_API_DOMAIN}/users`)
+        .then(response => {
+          users.value = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+    getUsers();
+    return { users };
   }
 });
 </script>

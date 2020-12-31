@@ -29,9 +29,9 @@ export const actions: ActionTree<State, State> & Actions = {
           commit("login", token);
           resolve(response);
         })
-        .catch(err => {
+        .catch(error => {
           commit("login", ""); // clear token from state
-          reject(err);
+          reject(error);
         });
     });
   },

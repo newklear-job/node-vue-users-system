@@ -30,6 +30,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import { useStore } from "@/store";
+import { useRouter, useRoute } from "vue-router";
 
 export default defineComponent({
   setup() {
@@ -39,9 +40,17 @@ export default defineComponent({
       password: null
     });
 
+    const router = useRouter();
+    const route = useRoute();
     async function login() {
-      const loginResult = await store.dispatch("login", credentials);
-      console.log(loginResult);
+      store
+        .dispatch("login", credentials)
+        .then(_result => {
+          const redirectUrl =
+            (route.query.redirect as string | undefined) || "users";
+          router.push(redirectUrl);
+        })
+        .catch(error => console.error(error));
     }
 
     return { credentials, login };

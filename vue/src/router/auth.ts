@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
+import { ifNotLoggedIn } from "./guards";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -6,7 +7,10 @@ const routes: Array<RouteRecordRaw> = [
     name: "Login",
     meta: { title: "Login" },
     component: () =>
-      import(/* webpackChunkName: "create" */ "@/views/Authorization/Login.vue")
+      import(
+        /* webpackChunkName: "create" */ "@/views/Authorization/Login.vue"
+      ),
+    beforeEnter: ifNotLoggedIn
   },
   {
     path: "/register",
@@ -15,7 +19,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(
         /* webpackChunkName: "create" */ "@/views/Authorization/Register.vue"
-      )
+      ),
+    beforeEnter: ifNotLoggedIn
   }
 ];
 
