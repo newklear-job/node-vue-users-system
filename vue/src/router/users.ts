@@ -1,6 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
 import Index from "@/views/Users/Index.vue";
-import { ifLoggedIn } from "@/router/guards";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -14,8 +13,7 @@ const routes: Array<RouteRecordRaw> = [
       title: "Users",
       requiresAuth: true
     },
-    component: Index,
-    beforeEnter: ifLoggedIn
+    component: Index
   },
   {
     path: "/users/create",
@@ -28,8 +26,7 @@ const routes: Array<RouteRecordRaw> = [
     // this generates a separate chunk (create.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "create" */ "@/views/Users/Create.vue"),
-    beforeEnter: ifLoggedIn
+      import(/* webpackChunkName: "create" */ "@/views/Users/Create.vue")
   },
   {
     path: "/users/:id",
@@ -39,8 +36,7 @@ const routes: Array<RouteRecordRaw> = [
       title: "Show user",
       requiresAuth: true
     },
-    component: () => import("@/views/Users/Show.vue"),
-    beforeEnter: ifLoggedIn
+    component: () => import("@/views/Users/Show.vue")
   },
   {
     path: "/users/:id/edit",
@@ -49,8 +45,7 @@ const routes: Array<RouteRecordRaw> = [
       title: "Edit user",
       requiresAuth: true
     },
-    component: () => import("@/views/Users/Edit.vue"),
-    beforeEnter: ifLoggedIn
+    component: () => import("@/views/Users/Edit.vue")
   }
 ];
 

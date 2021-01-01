@@ -1,26 +1,27 @@
 import { RouteRecordRaw } from "vue-router";
-import { ifNotLoggedIn } from "./guards";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/login",
     name: "Login",
-    meta: { title: "Login" },
+    meta: {
+      title: "Login",
+      requiresAuth: false
+    },
     component: () =>
-      import(
-        /* webpackChunkName: "create" */ "@/views/Authorization/Login.vue"
-      ),
-    beforeEnter: ifNotLoggedIn
+      import(/* webpackChunkName: "create" */ "@/views/Authorization/Login.vue")
   },
   {
     path: "/register",
     name: "Register",
-    meta: { title: "Register" },
+    meta: {
+      title: "Register",
+      requiresAuth: false
+    },
     component: () =>
       import(
         /* webpackChunkName: "create" */ "@/views/Authorization/Register.vue"
-      ),
-    beforeEnter: ifNotLoggedIn
+      )
   }
 ];
 

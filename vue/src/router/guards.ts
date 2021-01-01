@@ -3,31 +3,29 @@ import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 const store = useStore();
 
-const ifNotLoggedIn = (
+const checkAuth = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) => {
-  if (!store.getters.isLoggedIn) {
-    next();
-    return;
+  if (to.meta.requiresAuth === true && !store.getters.isLoggedIn) {
+    next({
+      path: "/login",
+      query: { redirect: to.fullPath }
+    });
+  } else if (to.meta.requiresAuth === false && store.getters.isLoggedIn) {
+    next("/");
   }
-  next("/");
+  next();
 };
 
-const ifLoggedIn = (
+const setTitle = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext
 ) => {
-  if (store.getters.isLoggedIn) {
-    next();
-    return;
-  }
-  next({
-    path: "/login",
-    query: { redirect: to.fullPath }
-  });
+  document.title = to.meta.title;
+  next();
 };
 
-export { ifLoggedIn, ifNotLoggedIn };
+export { checkAuth, setTitle };
