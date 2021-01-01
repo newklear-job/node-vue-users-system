@@ -38,14 +38,21 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
 import { useStore } from "@/store";
+import { useRoute, useRouter } from "vue-router";
 
 export default defineComponent({
   setup() {
     const store = useStore();
 
     const isLoggedIn = computed(() => store.getters.isLoggedIn);
-    function logout() {
-      store.dispatch("logout", null);
+
+    const router = useRouter();
+    const route = useRoute();
+    async function logout() {
+      await store.dispatch("logout", null);
+      if (route.meta.requiresAuth) {
+        router.push({ path: "login", query: { redirect: route.fullPath } });
+      }
     }
 
     return { isLoggedIn, logout };
