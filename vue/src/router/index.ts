@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import authRoutes from "@/router/auth";
 import usersRoutes from "@/router/users";
-import { setTitle, checkAuth } from "@/router/guards";
+import { setTitle, checkAuth, checkPermission } from "@/router/guards";
 
 const routes: Array<RouteRecordRaw> = [...authRoutes, ...usersRoutes];
 
@@ -12,5 +12,6 @@ const router = createRouter({
 
 router.beforeEach(setTitle);
 router.beforeEach(checkAuth);
+router.beforeEach(checkPermission);
 
 export default router;

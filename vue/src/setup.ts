@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useStore } from "@/store";
 import { VueCookieNext } from "vue-cookie-next";
+import { App } from "vue";
 
-function setup() {
+function setup(_app: App) {
   const store = useStore();
 
   VueCookieNext.config({ expire: "7d" });

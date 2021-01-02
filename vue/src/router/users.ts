@@ -11,7 +11,8 @@ const routes: Array<RouteRecordRaw> = [
     name: "UsersList",
     meta: {
       title: "Users",
-      requiresAuth: true
+      requiresAuth: true,
+      permission: "users.index"
     },
     component: Index
   },
@@ -20,7 +21,8 @@ const routes: Array<RouteRecordRaw> = [
     name: "UserCreate",
     meta: {
       title: "Create user",
-      requiresAuth: true
+      requiresAuth: true,
+      permission: "users.create"
     },
     // route level code-splitting
     // this generates a separate chunk (create.[hash].js) for this route
@@ -34,7 +36,8 @@ const routes: Array<RouteRecordRaw> = [
     name: "UserShow",
     meta: {
       title: "Show user",
-      requiresAuth: true
+      requiresAuth: true,
+      permission: "users.show"
     },
     component: () => import("@/views/Users/Show.vue")
   },
@@ -43,7 +46,8 @@ const routes: Array<RouteRecordRaw> = [
     name: "UserEdit",
     meta: {
       title: "Edit user",
-      requiresAuth: true
+      requiresAuth: true,
+      permission: "users.edit"
     },
     component: () => import("@/views/Users/Edit.vue")
   }

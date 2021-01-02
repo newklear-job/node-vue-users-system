@@ -1,10 +1,18 @@
 <template>
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <!--    todo: hide links based on meta data for unauthorised users-->
-    <router-link to="/users" class="navbar-brand">Users list</router-link>
+    <router-link
+      v-if="hasPermission('users.index')"
+      to="/users"
+      class="navbar-brand"
+      >Users list</router-link
+    >
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <router-link to="/users/create" class="nav-link"
+        <router-link
+          v-if="hasPermission('users.create')"
+          to="/users/create"
+          class="nav-link"
           >Create user</router-link
         >
       </li>
@@ -39,6 +47,7 @@
 import { defineComponent, computed } from "vue";
 import { useStore } from "@/store";
 import { useRoute, useRouter } from "vue-router";
+import { hasPermission } from "@/services/permissions";
 
 export default defineComponent({
   setup() {
@@ -55,7 +64,7 @@ export default defineComponent({
       }
     }
 
-    return { isLoggedIn, logout };
+    return { isLoggedIn, logout, hasPermission };
   }
 });
 </script>

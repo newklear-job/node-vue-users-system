@@ -5,10 +5,11 @@ import { store } from "@/store";
 import { VueCookieNext } from "vue-cookie-next";
 import { setup } from "@/setup";
 
-createApp(App)
+const app = createApp(App)
   .use(store)
   .use(router)
-  .use(VueCookieNext)
-  .mount("#app");
+  .use(VueCookieNext);
 
-setup();
+setup(app);
+
+app.mount("#app");
