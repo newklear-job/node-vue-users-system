@@ -11,7 +11,6 @@ const routes: Array<RouteRecordRaw> = [
     name: "UsersList",
     meta: {
       title: "Users",
-      requiresAuth: true,
       permission: "users.index"
     },
     component: Index

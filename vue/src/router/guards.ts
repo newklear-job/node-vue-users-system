@@ -1,6 +1,5 @@
 import { useStore } from "@/store";
 import { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
-import { hasPermission } from "@/services/permissions";
 
 const store = useStore();
 
@@ -20,18 +19,6 @@ const checkAuth = (
   next();
 };
 
-const checkPermission = (
-  to: RouteLocationNormalized,
-  from: RouteLocationNormalized,
-  next: NavigationGuardNext
-) => {
-  const permission = to.meta.permission;
-  if (permission && !hasPermission(permission)) {
-    next(from.fullPath || "/");
-  }
-  next();
-};
-
 const setTitle = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
@@ -41,4 +28,4 @@ const setTitle = (
   next();
 };
 
-export { checkAuth, setTitle, checkPermission };
+export { checkAuth, setTitle };

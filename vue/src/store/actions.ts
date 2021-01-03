@@ -1,6 +1,7 @@
 import { ActionTree, ActionContext } from "vuex";
-import { State } from "./state";
-import { Mutations } from "./mutations";
+import { State } from "@/store/state";
+import { Mutations } from "@/store/mutations";
+import { getPermissions } from "@/stubs/permissions";
 import axios from "axios";
 
 type AugmentedActionContext = {
@@ -12,34 +13,35 @@ type AugmentedActionContext = {
 
 export interface Actions {
   login(
-    { commit }: AugmentedActionContext,
+    { commit, dispatch }: AugmentedActionContext,
     credentials: object
-  ): Promise<object>;
-  logout({ commit }: AugmentedActionContext, payload: null): Promise<object>;
+  ): Promise<void>;
+  logout({ commit, dispatch }: AugmentedActionContext, payload: null): void;
+  permissions({ commit }: AugmentedActionContext, payload: null): void;
 }
 
 export const actions: ActionTree<State, State> & Actions = {
-  login({ commit }, credentials) {
-    return new Promise((resolve, reject) => {
-      // The Promise used for router redirect in login
-      axios
-        .post(`${process.env.VUE_APP_API_DOMAIN}/login`, credentials)
-        .then(response => {
-          const token = `${response.data.type} ${response.data.token}`;
-          commit("login", token);
-          resolve(response);
-        })
-        .catch(error => {
-          commit("login", ""); // clear token from state
-          reject(error);
-        });
-    });
+  login({ commit, dispatch }, credentials) {
+    return axios
+      .post(`${process.env.VUE_APP_API_DOMAIN}/login`, credentials)
+      .then(async response => {
+        const token = `${response.data.type} ${response.data.token}`;
+        commit("login", token);
+        await dispatch("permissions", null);
+      })
+      .catch(error => {
+        commit("login", ""); // clear token from state
+        throw error;
+      });
   },
 
-  logout({ commit }) {
-    return new Promise(resolve => {
-      commit("login", ""); // clear token from state
-      resolve();
-    });
+  async logout({ commit, dispatch }) {
+    commit("login", ""); // clear token from state
+    await dispatch("permissions", null);
+  },
+
+  async permissions({ commit }) {
+    const permissions = await getPermissions();
+    commit("permissions", permissions);
   }
 };

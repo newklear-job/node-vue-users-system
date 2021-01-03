@@ -18,19 +18,15 @@
       </li>
     </ul>
     <ul class="navbar-nav mr-right">
-      <template v-if="isLoggedIn">
-        <li class="nav-item">
-          <a @click.prevent="logout" class="nav-link">Logout</a>
-        </li>
-      </template>
-      <template v-else>
-        <li class="nav-item">
-          <router-link to="/login" class="nav-link">Login</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/register" class="nav-link">Register</router-link>
-        </li>
-      </template>
+      <li v-if="hasPermission('logout')" class="nav-item">
+        <a @click.prevent="logout" class="nav-link">Logout</a>
+      </li>
+      <li v-if="hasPermission('login')" class="nav-item">
+        <router-link to="/login" class="nav-link">Login</router-link>
+      </li>
+      <li v-if="hasPermission('register')" class="nav-item">
+        <router-link to="/register" class="nav-link">Register</router-link>
+      </li>
     </ul>
   </nav>
 
@@ -52,15 +48,23 @@ import { hasPermission } from "@/services/permissions";
 export default defineComponent({
   setup() {
     const store = useStore();
-
     const isLoggedIn = computed(() => store.getters.isLoggedIn);
+
+    store.dispatch("permissions", null);
 
     const router = useRouter();
     const route = useRoute();
+
     async function logout() {
       await store.dispatch("logout", null);
       if (route.meta.requiresAuth) {
-        router.push({ path: "login", query: { redirect: route.fullPath } });
+        await router.push({
+          path: "/login",
+          query: { redirect: route.fullPath }
+        });
+      }
+      if (route.meta.permission && !hasPermission(route.meta.permission)) {
+        router.push({ path: "/" });
       }
     }
 

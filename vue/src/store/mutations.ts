@@ -4,6 +4,7 @@ import { VueCookieNext } from "vue-cookie-next";
 
 export type Mutations<S = State> = {
   login(state: S, token: string): void;
+  permissions(state: S, permissions: Array<string>): void;
 };
 
 export const mutations: MutationTree<State> & Mutations = {
@@ -14,5 +15,8 @@ export const mutations: MutationTree<State> & Mutations = {
     } else {
       VueCookieNext.removeCookie("token");
     }
+  },
+  permissions: (state, permissions) => {
+    state.permissions = permissions;
   }
 };
