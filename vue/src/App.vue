@@ -44,6 +44,7 @@ import { defineComponent, computed } from "vue";
 import { useStore } from "@/store";
 import { useRoute, useRouter } from "vue-router";
 import { hasPermission } from "@/services/permissions";
+import { provideI18n } from "@/i18n";
 
 export default defineComponent({
   setup() {
@@ -51,6 +52,18 @@ export default defineComponent({
     const isLoggedIn = computed(() => store.getters.isLoggedIn);
 
     store.dispatch("permissions", null);
+
+    provideI18n({
+      locale: "ua",
+      messages: {
+        en: {
+          login: "Login"
+        },
+        ua: {
+          login: "Увійти"
+        }
+      }
+    });
 
     const router = useRouter();
     const route = useRoute();
