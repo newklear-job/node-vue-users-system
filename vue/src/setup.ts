@@ -2,6 +2,8 @@ import axios from "axios";
 import { useStore } from "@/store";
 import { VueCookieNext } from "vue-cookie-next";
 import { App } from "vue";
+// @ts-expect-error: No ts declaration
+import Toaster from "@meforma/vue-toaster/src/api";
 
 function setup(_app: App) {
   const store = useStore();
@@ -16,14 +18,18 @@ function setup(_app: App) {
     return config;
   });
 
-  axios.interceptors.response.use(undefined, function(err) {
+  axios.interceptors.response.use(undefined, function(error) {
     return new Promise(function(resolve, reject) {
-      if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-        // if you ever get an unauthorized, logout the user
+      if (
+        error.response.status === 401 &&
+        error.config &&
+        !error.config.__isRetryRequest
+      ) {
+        Toaster().error(error.response.data.errors[0].message);
         store.dispatch("logout", null);
         // you can also redirect to /login if needed !
       }
-      reject(err);
+      reject(error);
     });
   });
 }
