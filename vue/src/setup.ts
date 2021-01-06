@@ -2,8 +2,7 @@ import axios from "axios";
 import { useStore } from "@/store";
 import { VueCookieNext } from "vue-cookie-next";
 import { App } from "vue";
-// @ts-expect-error: No ts declaration
-import Toaster from "@meforma/vue-toaster/src/api";
+import { notify } from "@/services/notify";
 
 function setup(_app: App) {
   const store = useStore();
@@ -25,7 +24,7 @@ function setup(_app: App) {
         error.config &&
         !error.config.__isRetryRequest
       ) {
-        Toaster().error(error.response.data.errors[0].message);
+        notify.error(error.response.data.errors[0].message);
         store.dispatch("logout", null);
         // you can also redirect to /login if needed !
       }

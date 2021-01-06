@@ -17,7 +17,6 @@ const i18nSymbol = Symbol();
 export function provideI18n(i18nConfig: Config) {
   const i18n = createI18n(i18nConfig);
   provide(i18nSymbol, i18n);
-  console.log(1);
 }
 
 export function useI18n() {
