@@ -45,6 +45,7 @@ import { useStore } from "@/store";
 import { useRoute, useRouter } from "vue-router";
 import { hasPermission } from "@/services/permissions";
 import { provideI18n } from "@/i18n";
+import Translations from "@/i18n/translations";
 
 export default defineComponent({
   setup() {
@@ -55,14 +56,7 @@ export default defineComponent({
 
     provideI18n({
       locale: "ua",
-      messages: {
-        en: {
-          login: "Login"
-        },
-        ua: {
-          login: "Увійти"
-        }
-      }
+      messages: Translations
     });
 
     const router = useRouter();

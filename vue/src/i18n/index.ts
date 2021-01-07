@@ -1,7 +1,8 @@
 import { ref, provide, inject } from "vue";
 
 interface Config {
-  [key: string]: any;
+  locale: string;
+  messages: { [key: string]: { [key: string]: string } };
 }
 
 const createI18n = (config: Config) => ({
@@ -21,7 +22,6 @@ export function provideI18n(i18nConfig: Config) {
 
 export function useI18n() {
   const i18n = inject(i18nSymbol);
-  console.log(i18n);
   if (!i18n) throw new Error("No i18n provided!!!");
 
   return i18n;
