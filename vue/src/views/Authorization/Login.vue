@@ -23,7 +23,7 @@
 
     <div>
       <button class="btn btn-success" @click.prevent="login">
-        {{ i18n.$t("login") }}
+        {{ i18n.$t("system.login") }}
       </button>
     </div>
   </div>

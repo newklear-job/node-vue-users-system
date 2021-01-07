@@ -18,6 +18,9 @@
       </li>
     </ul>
     <ul class="navbar-nav mr-right">
+      <li class="nav-item">
+        <a @click.prevent="switchLanguage" class="nav-link">Switch language</a>
+      </li>
       <li v-if="hasPermission('logout')" class="nav-item">
         <a @click.prevent="logout" class="nav-link">Logout</a>
       </li>
@@ -54,7 +57,7 @@ export default defineComponent({
 
     store.dispatch("permissions", null);
 
-    provideI18n({
+    const i18n = provideI18n({
       locale: "ua",
       messages: Translations
     });
@@ -75,7 +78,12 @@ export default defineComponent({
       }
     }
 
-    return { isLoggedIn, logout, hasPermission };
+    const switchLanguage = () => {
+      const locale = i18n.locale.value === "en" ? "ua" : "en";
+      i18n.locale.value = locale;
+    };
+
+    return { isLoggedIn, logout, hasPermission, switchLanguage };
   }
 });
 </script>
