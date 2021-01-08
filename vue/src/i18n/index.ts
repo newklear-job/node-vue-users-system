@@ -22,16 +22,16 @@ export function useI18n(): I18n {
   return i18n;
 }
 
-interface Config {
+export interface Config {
   locale: string;
   messages: { [key: string]: { [key: string]: string } };
 }
 
-interface Ref<T> {
+export interface Ref<T> {
   value: T;
 }
 
-interface I18n {
+export interface I18n {
   locale: Ref<string>;
   $t(key: string): string;
   messages: { [key: string]: { [key: string]: string } };

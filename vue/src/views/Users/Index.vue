@@ -83,9 +83,9 @@
             <td>{{ user.first_name }}</td>
             <td>{{ user.last_name }}</td>
             <td>{{ user.email }}</td>
-            <td>{{ $format.gender(user.gender) }}</td>
-            <td>{{ $format.dateTime(user.created_at) }}</td>
-            <td>{{ $format.dateTime(user.updated_at) }}</td>
+            <td>{{ formatters.gender(user.gender) }}</td>
+            <td>{{ formatters.dateTime(user.created_at) }}</td>
+            <td>{{ formatters.dateTime(user.updated_at) }}</td>
             <td>
               <router-link :to="`/users/${user.id}`" class="badge badge-success"
                 >Show</router-link
@@ -111,14 +111,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, getCurrentInstance } from "vue";
+import { defineComponent, ref } from "vue";
 import axios from "axios";
 import { useI18n } from "@/i18n";
+import { useFormatters } from "@/services/formatters";
 
 export default defineComponent({
   setup() {
-    const users = ref([]);
     const i18n = useI18n();
+    const formatters = useFormatters();
+
+    const users = ref([]);
+
     function getUsers() {
       axios
         .get(`${process.env.VUE_APP_API_DOMAIN}/users`)
@@ -144,7 +148,8 @@ export default defineComponent({
         });
     }
     getUsers();
-    return { users, deleteUser };
+
+    return { users, deleteUser, formatters };
   }
 });
 </script>

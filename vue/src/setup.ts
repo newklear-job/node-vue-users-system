@@ -1,12 +1,10 @@
 import axios from "axios";
 import { useStore } from "@/store";
 import { VueCookieNext } from "vue-cookie-next";
-import moment from "moment";
 import { App } from "vue";
 import { notify } from "@/services/notify";
-import { useI18n } from "@/i18n";
 
-function setup(app: App) {
+function setup(_app: App) {
   const store = useStore();
 
   VueCookieNext.config({ expire: "7d" });
@@ -33,22 +31,5 @@ function setup(app: App) {
       reject(error);
     });
   });
-
-  app.config.globalProperties.$format = {
-    gender(value: string) {
-      const i18n = useI18n();
-      if (value === "m") {
-        return i18n.$t("users.male");
-      }
-      if (value === "f") {
-        return i18n.$t("users.female");
-      }
-      i18n.$t("users.unknown");
-    },
-    dateTime(value: string) {
-      return moment.utc(value).format("YYYY-MM-DD HH:mm:ss");
-    }
-  };
 }
-
 export { setup };

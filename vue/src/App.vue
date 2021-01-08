@@ -49,6 +49,7 @@ import { defineComponent, computed } from "vue";
 import { useStore } from "@/store";
 import { useRoute, useRouter } from "vue-router";
 import { hasPermission } from "@/services/permissions";
+import { provideFormatters } from "@/services/formatters";
 import { provideI18n } from "@/i18n";
 import Translations from "@/i18n/translations";
 
@@ -63,6 +64,7 @@ export default defineComponent({
       locale: "ua",
       messages: Translations
     });
+    provideFormatters();
 
     const router = useRouter();
     const route = useRoute();
