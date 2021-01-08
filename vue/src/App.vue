@@ -19,7 +19,9 @@
     </ul>
     <ul class="navbar-nav mr-right">
       <li class="nav-item">
-        <a @click.prevent="switchLanguage" class="nav-link">Switch language</a>
+        <a @click.prevent="switchLanguage" class="nav-link"
+          >Switch language({{ i18n.locale.value }})</a
+        >
       </li>
       <li v-if="hasPermission('logout')" class="nav-item">
         <a @click.prevent="logout" class="nav-link">Logout</a>
@@ -83,7 +85,7 @@ export default defineComponent({
       i18n.locale.value = locale;
     };
 
-    return { isLoggedIn, logout, hasPermission, switchLanguage };
+    return { isLoggedIn, logout, hasPermission, switchLanguage, i18n };
   }
 });
 </script>
