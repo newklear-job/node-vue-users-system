@@ -1,21 +1,35 @@
 import enTranslations from "./en";
 import uaTranslations from "./ua";
 
-function prefixTranslationKeysWithFileNames(byFiles: {
+export default {
+  en: formatTranslations(enTranslations),
+  ua: formatTranslations(uaTranslations)
+};
+
+function formatTranslations(byFiles: {
   [key: string]: { [key: string]: string };
 }) {
-  const translations: { [key: string]: string } = {};
+  let translations: { [key: string]: string } = {};
   for (const [fileName, fileTranslations] of Object.entries(byFiles)) {
-    for (const [translationKey, translationValue] of Object.entries(
-      fileTranslations
-    )) {
-      translations[`${fileName}.${translationKey}`] = translationValue;
-    }
+    translations = {
+      ...translations,
+      ...prefixTranslationKeysWithFileNames(fileName, fileTranslations)
+    };
   }
   return translations;
 }
 
-export default {
-  en: prefixTranslationKeysWithFileNames(enTranslations),
-  ua: prefixTranslationKeysWithFileNames(uaTranslations)
-};
+function prefixTranslationKeysWithFileNames(
+  fileName: string,
+  fileTranslations: {
+    [key: string]: string;
+  }
+) {
+  const translations: { [key: string]: string } = {};
+  for (const [translationKey, translationValue] of Object.entries(
+    fileTranslations
+  )) {
+    translations[`${fileName}.${translationKey}`] = translationValue;
+  }
+  return translations;
+}
