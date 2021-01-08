@@ -78,22 +78,28 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>ID</td>
-            <td>Email</td>
-            <td>First name</td>
-            <td>Last name</td>
-            <td>Gender</td>
-            <td>Created at</td>
-            <td>Updated at</td>
+          <tr v-for="user in users" :key="user.id">
+            <td>{{ user.id }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ $format.gender(user.gender) }}</td>
+            <td>{{ $format.dateTime(user.created_at) }}</td>
+            <td>{{ $format.dateTime(user.updated_at) }}</td>
             <td>
-              <router-link :to="`/users/1`" class="badge badge-success"
+              <router-link :to="`/users/${user.id}`" class="badge badge-success"
                 >Show</router-link
               >
-              <router-link :to="`/users/1/edit`" class="badge badge-warning"
+              <router-link
+                :to="`/users/${user.id}/edit`"
+                class="badge badge-warning"
                 >Edit</router-link
               >
-              <button type="button" class="badge badge-danger">
+              <button
+                @click.prevent="deleteUser(user.id)"
+                type="button"
+                class="badge badge-danger"
+              >
                 Delete
               </button>
             </td>
@@ -105,12 +111,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, getCurrentInstance } from "vue";
 import axios from "axios";
+import { useI18n } from "@/i18n";
 
 export default defineComponent({
   setup() {
     const users = ref([]);
+    const i18n = useI18n();
     function getUsers() {
       axios
         .get(`${process.env.VUE_APP_API_DOMAIN}/users`)
@@ -121,8 +129,22 @@ export default defineComponent({
           console.error(error);
         });
     }
+
+    function deleteUser(userId: number) {
+      if (!confirm(i18n.$t("users.deleteConfirmation"))) {
+        return;
+      }
+      axios
+        .delete(`${process.env.VUE_APP_API_DOMAIN}/users${userId}`)
+        .then(response => {
+          users.value = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
     getUsers();
-    return { users };
+    return { users, deleteUser };
   }
 });
 </script>

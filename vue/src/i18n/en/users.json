@@ -1,3 +1,7 @@
 {
-  "users": "Users"
+  "users": "Users",
+  "deleteConfirmation": "Are you sure you want to delete user?",
+  "male": "Man",
+  "female": "Woman",
+  "unknown": "Unknown"
 }
