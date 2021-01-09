@@ -49,7 +49,6 @@ import { defineComponent, computed } from "vue";
 import { useStore } from "@/store";
 import { useRoute, useRouter } from "vue-router";
 import { hasPermission } from "@/services/permissions";
-import { useFormatters } from "@/services/formatters";
 import { initI18n } from "@/i18n";
 
 export default defineComponent({
@@ -84,8 +83,6 @@ export default defineComponent({
       i18n.locale.value = locale;
     };
 
-    const formatters = useFormatters();
-    console.log(formatters.gender("m"));
     return { isLoggedIn, logout, hasPermission, switchLanguage, i18n };
   }
 });
