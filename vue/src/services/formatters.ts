@@ -1,10 +1,10 @@
-import { useI18n } from "@/i18n";
+import { useI18n, I18n } from "@/i18n";
 import moment from "moment";
-import { provide, inject } from "vue";
+
+let i18n: I18n | undefined;
 
 const formatters = {
   gender(value: string) {
-    const i18n = useI18n();
     if (!i18n) return;
     if (value === "m") {
       return i18n.$t("users.male");
@@ -19,11 +19,7 @@ const formatters = {
   }
 };
 
-export function provideFormatters() {
-  provide("formatters", formatters);
-  return formatters;
-}
-
 export function useFormatters() {
-  return inject("formatters");
+  if (!i18n) i18n = useI18n();
+  return formatters;
 }

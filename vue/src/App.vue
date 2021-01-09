@@ -49,9 +49,8 @@ import { defineComponent, computed } from "vue";
 import { useStore } from "@/store";
 import { useRoute, useRouter } from "vue-router";
 import { hasPermission } from "@/services/permissions";
-import { provideFormatters } from "@/services/formatters";
-import { provideI18n } from "@/i18n";
-import Translations from "@/i18n/translations";
+import { useFormatters } from "@/services/formatters";
+import { initI18n } from "@/i18n";
 
 export default defineComponent({
   setup() {
@@ -60,11 +59,9 @@ export default defineComponent({
 
     store.dispatch("permissions", null);
 
-    const i18n = provideI18n({
-      locale: "ua",
-      messages: Translations
+    const i18n = initI18n({
+      locale: "ua"
     });
-    provideFormatters();
 
     const router = useRouter();
     const route = useRoute();
@@ -87,6 +84,8 @@ export default defineComponent({
       i18n.locale.value = locale;
     };
 
+    const formatters = useFormatters();
+    console.log(formatters.gender("m"));
     return { isLoggedIn, logout, hasPermission, switchLanguage, i18n };
   }
 });

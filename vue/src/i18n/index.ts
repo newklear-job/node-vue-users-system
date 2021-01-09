@@ -1,30 +1,29 @@
-import { ref, provide, inject } from "vue";
+import { ref } from "vue";
+import Translations from "@/i18n/translations";
 
-const createI18n = (config: Config): I18n => ({
-  locale: ref(config.locale),
-  messages: config.messages,
+let i18n: I18n | undefined;
+
+const createI18n = ({ locale, messages = Translations }: Config): I18n => ({
+  locale: ref(locale),
+  messages: messages,
   $t(key) {
     return this.messages[this.locale.value][key];
   }
 });
 
-const i18nSymbol = Symbol();
-
-export function provideI18n(i18nConfig: Config): I18n {
-  const i18n = createI18n(i18nConfig);
-  provide(i18nSymbol, i18n);
+export function initI18n(i18nConfig: Config): I18n {
+  i18n = createI18n(i18nConfig);
   return i18n;
 }
 
 export function useI18n(): I18n {
-  const i18n: I18n | undefined = inject(i18nSymbol);
-  if (!i18n) throw new Error("No i18n provided!!!");
+  if (!i18n) throw new Error("i18n not initialised!!!");
   return i18n;
 }
 
 export interface Config {
   locale: string;
-  messages: { [key: string]: { [key: string]: string } };
+  messages?: { [key: string]: { [key: string]: string } };
 }
 
 export interface Ref<T> {
