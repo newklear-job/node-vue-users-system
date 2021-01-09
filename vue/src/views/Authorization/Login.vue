@@ -22,7 +22,7 @@
     </div>
 
     <div>
-      <button class="btn btn-success" @click.prevent="login">
+      <button class="btn btn-success" @click.prevent="login(credentials)">
         {{ i18n.$t("system.login") }}
       </button>
     </div>
@@ -31,33 +31,17 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
-import { useStore } from "@/store";
-import { useRouter, useRoute } from "vue-router";
 import { useI18n } from "@/i18n";
+import { login, init as authInit } from "@/services/authorization";
 
 export default defineComponent({
   setup() {
-    const store = useStore();
-
     const i18n = useI18n();
-
+    authInit();
     const credentials = reactive({
       email: null,
       password: null
     });
-
-    const router = useRouter();
-    const route = useRoute();
-    async function login() {
-      store
-        .dispatch("login", credentials)
-        .then(_result => {
-          const redirectUrl =
-            (route.query.redirect as string | undefined) || "users";
-          router.push(redirectUrl);
-        })
-        .catch(error => console.error(error));
-    }
 
     return { credentials, login, i18n };
   }

@@ -2,6 +2,7 @@ import { ActionTree, ActionContext } from "vuex";
 import { State } from "@/store/state";
 import { Mutations } from "@/store/mutations";
 import { getPermissions } from "@/stubs/permissions";
+import { afterLogin } from "@/services/authorization";
 import axios from "axios";
 
 type AugmentedActionContext = {
@@ -21,13 +22,12 @@ export interface Actions {
 }
 
 export const actions: ActionTree<State, State> & Actions = {
-  login({ commit, dispatch }, credentials) {
+  login({ commit }, credentials) {
     return axios
       .post(`${process.env.VUE_APP_API_DOMAIN}/login`, credentials)
       .then(async response => {
         const token = `${response.data.type} ${response.data.token}`;
-        commit("login", token);
-        await dispatch("permissions", null);
+        await afterLogin(token);
       })
       .catch(error => {
         commit("login", ""); // clear token from state
