@@ -114,20 +114,14 @@
 import { defineComponent, reactive, ref } from "vue";
 import axios from "axios";
 import { notify } from "@/services/notify";
-import { clearUserData } from "@/services/users";
+import { UserData } from "@/services/users";
 import { formatValidationErrors } from "@/services/validation";
-import { afterLogin } from "@/services/authorization";
+import { afterLogin, init as authInit } from "@/services/authorization";
 
 export default defineComponent({
   setup() {
-    const userData = reactive({
-      email: "",
-      first_name: "",
-      last_name: "",
-      gender: "",
-      password: "",
-      password_confirmation: ""
-    });
+    authInit();
+    const userData = reactive(new UserData());
 
     const validationErrors = ref({});
 
@@ -136,7 +130,7 @@ export default defineComponent({
         .post(`${process.env.VUE_APP_API_DOMAIN}/register`, userData)
         .then(_response => {
           validationErrors.value = {};
-          clearUserData(userData);
+          userData.clear();
           notify.success("User created successfully");
           afterLogin("testToken"); //todo: getToken here.
         })

@@ -1,13 +1,29 @@
-export function clearUserData(userData: UserData) {
-  userData.email = "";
-  userData.first_name = "";
-  userData.last_name = "";
-  userData.gender = "";
-  userData.password = "";
-  userData.password_confirmation = "";
+export class UserData implements UserDataI {
+  email: string;
+  first_name: string;
+  last_name: string;
+  gender: string;
+  password: string;
+  password_confirmation: string;
+
+  constructor() {
+    this.setDefaultValues();
+  }
+
+  private setDefaultValues() {
+    this.email = "";
+    this.first_name = "";
+    this.last_name = "";
+    this.gender = "";
+    this.password = "";
+    this.password_confirmation = "";
+  }
+  clear() {
+    this.setDefaultValues();
+  }
 }
 
-interface UserData {
+interface UserDataI {
   email: string;
   first_name: string;
   last_name: string;
