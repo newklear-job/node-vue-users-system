@@ -117,6 +117,7 @@ import { notify } from "@/services/notify";
 import { UserData } from "@/services/users";
 import { formatValidationErrors } from "@/services/validation";
 import { Auth } from "@/services/authorization";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   setup() {
@@ -124,14 +125,18 @@ export default defineComponent({
 
     const validationErrors = ref({});
 
+    const router = useRouter();
+
     function register() {
       axios
         .post(`${process.env.VUE_APP_API_DOMAIN}/register`, userData)
-        .then(_response => {
+        .then(async response => {
           validationErrors.value = {};
           userData.clear();
           notify.success("User created successfully");
-          Auth.afterLogin("testToken"); //todo: getToken here.
+          const token = `${response.data.type} ${response.data.token}`;
+          await Auth.afterLogin(token);
+          router.push("users");
         })
         .catch(error => {
           validationErrors.value = {};

@@ -139,9 +139,9 @@ export default defineComponent({
         return;
       }
       axios
-        .delete(`${process.env.VUE_APP_API_DOMAIN}/users${userId}`)
-        .then(response => {
-          users.value = response.data.data;
+        .delete(`${process.env.VUE_APP_API_DOMAIN}/users/${userId}`)
+        .then(_response => {
+          getUsers();
         })
         .catch(error => {
           console.error(error);
