@@ -36,16 +36,19 @@
   </nav>
 
   <div class="container mt-3">
-    <router-view v-slot="slotProps">
+    <router-view v-slot="slotProps" :key="routerKey">
       <keep-alive max="5">
-        <component :is="slotProps.Component" :key="$route.path"></component>
+        <component
+          :is="slotProps.Component"
+          :key="`${routerKey}-${$route.path}`"
+        ></component>
       </keep-alive>
     </router-view>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, ref } from "vue";
 import { useStore } from "@/store";
 import { useRoute, useRouter } from "vue-router";
 import { hasPermission } from "@/services/permissions";
@@ -55,7 +58,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const isLoggedIn = computed(() => store.getters.isLoggedIn);
-
+    const routerKey = ref(0);
     store.dispatch("permissions", null);
 
     const i18n = initI18n({
@@ -76,6 +79,7 @@ export default defineComponent({
       if (route.meta.permission && !hasPermission(route.meta.permission)) {
         router.push({ path: "/" });
       }
+      routerKey.value++;
     }
 
     const switchLanguage = () => {
@@ -83,7 +87,14 @@ export default defineComponent({
       i18n.locale.value = locale;
     };
 
-    return { isLoggedIn, logout, hasPermission, switchLanguage, i18n };
+    return {
+      isLoggedIn,
+      logout,
+      hasPermission,
+      switchLanguage,
+      i18n,
+      routerKey
+    };
   }
 });
 </script>
