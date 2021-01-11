@@ -111,7 +111,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onActivated } from "vue";
 import axios from "axios";
 import { useI18n } from "@/i18n";
 import { useFormatters } from "@/services/formatters";
@@ -147,7 +147,10 @@ export default defineComponent({
           console.error(error);
         });
     }
-    getUsers();
+
+    onActivated(() => {
+      getUsers();
+    });
 
     return { users, deleteUser, formatters };
   }

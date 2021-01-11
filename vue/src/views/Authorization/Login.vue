@@ -22,7 +22,7 @@
     </div>
 
     <div>
-      <button class="btn btn-success" @click.prevent="login(credentials)">
+      <button class="btn btn-success" @click.prevent="auth.login(credentials)">
         {{ i18n.$t("system.login") }}
       </button>
     </div>
@@ -32,18 +32,19 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import { useI18n } from "@/i18n";
-import { login, init as authInit } from "@/services/authorization";
+import { Auth } from "@/services/authorization";
 
 export default defineComponent({
   setup() {
     const i18n = useI18n();
-    authInit();
+    const auth = new Auth();
+
     const credentials = reactive({
       email: null,
       password: null
     });
 
-    return { credentials, login, i18n };
+    return { credentials, auth, i18n };
   }
 });
 </script>

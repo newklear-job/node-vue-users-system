@@ -116,11 +116,10 @@ import axios from "axios";
 import { notify } from "@/services/notify";
 import { UserData } from "@/services/users";
 import { formatValidationErrors } from "@/services/validation";
-import { afterLogin, init as authInit } from "@/services/authorization";
+import { Auth } from "@/services/authorization";
 
 export default defineComponent({
   setup() {
-    authInit();
     const userData = reactive(new UserData());
 
     const validationErrors = ref({});
@@ -132,7 +131,7 @@ export default defineComponent({
           validationErrors.value = {};
           userData.clear();
           notify.success("User created successfully");
-          afterLogin("testToken"); //todo: getToken here.
+          Auth.afterLogin("testToken"); //todo: getToken here.
         })
         .catch(error => {
           validationErrors.value = {};
