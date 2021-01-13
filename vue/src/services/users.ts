@@ -23,11 +23,12 @@ export class UserData implements UserDataI {
   }
 }
 
-interface UserDataI {
+export interface UserDataI {
   email: string;
   first_name: string;
   last_name: string;
   gender?: string;
   password?: string;
   password_confirmation?: string;
+  clear(): void;
 }

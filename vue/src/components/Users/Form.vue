@@ -1,51 +1,149 @@
 <template>
-  <div class="form-group">
-    <label for="title">Email</label>
-    <input type="text" class="form-control" id="title" required />
-  </div>
+  <form @submit.prevent="submit" class="register-form">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        v-model="userData.email"
+        type="text"
+        class="form-control"
+        id="email"
+        required
+      />
+      <p v-if="validationErrors.email" class="validation">
+        {{ validationErrors.email }}
+      </p>
+    </div>
 
-  <div class="form-group">
-    <label for="author">First name</label>
-    <input class="form-control" id="author" required />
-  </div>
+    <div class="form-group">
+      <label for="first_name">First name</label>
+      <input
+        v-model="userData.first_name"
+        class="form-control"
+        id="first_name"
+        required
+      />
+      <p v-if="validationErrors.first_name" class="validation">
+        {{ validationErrors.first_name }}
+      </p>
+    </div>
 
-  <div class="form-group">
-    <label for="content">Last name</label>
-    <textarea class="form-control" id="content" required rows="6" cols="50" />
-  </div>
+    <div class="form-group">
+      <label for="last_name">Last name</label>
+      <input
+        v-model="userData.last_name"
+        class="form-control"
+        id="last_name"
+        required
+      />
+      <p v-if="validationErrors.last_name" class="validation">
+        {{ validationErrors.last_name }}
+      </p>
+    </div>
 
-  <div class="form-group">
-    <label for="publishedAt">Gender</label>
-    <input class="form-control" id="publishedAt" required />
-  </div>
+    <div class="form-group">
+      <label>Gender</label>
+      <br />
+      <label>
+        <input
+          v-model="userData.gender"
+          type="radio"
+          name="gender"
+          value=""
+        />Incognito
+      </label>
+
+      <label>
+        <input
+          v-model="userData.gender"
+          type="radio"
+          name="gender"
+          value="m"
+        />Male
+      </label>
+
+      <label>
+        <input
+          v-model="userData.gender"
+          type="radio"
+          name="gender"
+          value="f"
+        />Female
+      </label>
+      <p v-if="validationErrors.gender" class="validation">
+        {{ validationErrors.gender }}
+      </p>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        v-model="userData.password"
+        type="password"
+        class="form-control"
+        id="password"
+        required
+      />
+      <p v-if="validationErrors.password" class="validation">
+        {{ validationErrors.password }}
+      </p>
+    </div>
+
+    <div class="form-group">
+      <label for="password_confirmation">Password</label>
+      <input
+        v-model="userData.password_confirmation"
+        type="password"
+        class="form-control"
+        id="password_confirmation"
+        required
+      />
+      <p v-if="validationErrors.password_confirmation" class="validation">
+        {{ validationErrors.password_confirmation }}
+      </p>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-success">
+        Register
+      </button>
+    </div>
+  </form>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
+import { UserData } from "@/services/users";
 
 export default defineComponent({
-  setup() {
-    return {};
+  props: {
+    validationErrors: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(_props, { emit }) {
+    const userData = reactive(new UserData());
+
+    function submit() {
+      emit("formSubmit", userData);
+    }
+
+    return { userData, submit };
   }
 });
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.register-form {
+  max-width: 300px;
+  margin: auto;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+input[type="radio"] {
+  margin-left: 10px;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
+.validation {
+  color: red;
+  font-size: 14px;
 }
 </style>
