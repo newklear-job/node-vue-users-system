@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: false
     },
     component: () =>
-      import(/* webpackChunkName: "create" */ "@/views/Authorization/Login.vue")
+      import(/* webpackChunkName: "login" */ "@/views/Authorization/Login.vue")
   },
   {
     path: "/register",
@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "create" */ "@/views/Authorization/Register.vue"
+        /* webpackChunkName: "register" */ "@/views/Authorization/Register.vue"
       )
   }
 ];

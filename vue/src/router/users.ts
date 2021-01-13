@@ -1,5 +1,4 @@
 import { RouteRecordRaw } from "vue-router";
-import Index from "@/views/Users/Index.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -13,7 +12,8 @@ const routes: Array<RouteRecordRaw> = [
       title: "Users",
       permission: "users.index"
     },
-    component: Index
+    component: () =>
+      import(/* webpackChunkName: "users-index" */ "@/views/Users/Index.vue")
   },
   {
     path: "/users/create",
@@ -27,7 +27,7 @@ const routes: Array<RouteRecordRaw> = [
     // this generates a separate chunk (create.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "create" */ "@/views/Users/Create.vue")
+      import(/* webpackChunkName: "users-create" */ "@/views/Users/Create.vue")
   },
   {
     path: "/users/:id",
@@ -38,7 +38,8 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true,
       permission: "users.show"
     },
-    component: () => import("@/views/Users/Show.vue")
+    component: () =>
+      import(/* webpackChunkName: "users-show" */ "@/views/Users/Show.vue")
   },
   {
     path: "/users/:id/edit",
@@ -48,7 +49,8 @@ const routes: Array<RouteRecordRaw> = [
       requiresAuth: true,
       permission: "users.edit"
     },
-    component: () => import("@/views/Users/Edit.vue")
+    component: () =>
+      import(/* webpackChunkName: "users-edit" */ "@/views/Users/Edit.vue")
   }
 ];
 

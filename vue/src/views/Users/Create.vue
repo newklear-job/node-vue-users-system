@@ -9,12 +9,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import UserForm from "@/components/Users/Form.vue";
+import { defineComponent, defineAsyncComponent } from "vue";
 
 export default defineComponent({
   components: {
-    UserForm
+    UserForm: defineAsyncComponent(() =>
+      import(/* webpackChunkName: "user-form"*/ "@/components/Users/Form.vue")
+    )
   },
   setup() {
     return {};
