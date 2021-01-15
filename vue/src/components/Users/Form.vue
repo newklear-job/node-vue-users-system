@@ -81,7 +81,7 @@
         type="password"
         class="form-control"
         id="password"
-        required
+        :required="!initialUserData"
       />
       <p v-if="validationErrors.password" class="validation">
         {{ validationErrors.password }}
@@ -95,7 +95,7 @@
         type="password"
         class="form-control"
         id="password_confirmation"
-        required
+        :required="!initialUserData"
       />
       <p v-if="validationErrors.password_confirmation" class="validation">
         {{ validationErrors.password_confirmation }}
@@ -115,10 +115,17 @@ export default defineComponent({
     validationErrors: {
       type: Object,
       required: true
+    },
+    initialUserData: {
+      type: Object,
+      required: false
     }
   },
-  setup(_props, { emit }) {
+  setup(props, { emit }) {
     const userData = reactive(new UserData());
+    if (props.initialUserData) {
+      userData.setValues(props.initialUserData);
+    }
 
     function submit() {
       emit("formSubmit", userData);
