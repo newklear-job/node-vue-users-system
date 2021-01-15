@@ -1,15 +1,20 @@
 <template>
-  <div class="create-form">
-    <UserForm></UserForm>
-    <div>
-      <router-link to="/users" class="btn btn-warning">Back</router-link>
-      <button class="btn btn-success">Create</button>
-    </div>
-  </div>
+  <UserForm @formSubmit="create" :validation-errors="validationErrors">
+    <template v-slot:controls>
+      <div class="form-group">
+        <a @click="$router.back()" class="btn btn-warning">Back</a>
+        <button class="btn btn-success">Create</button>
+      </div>
+    </template>
+  </UserForm>
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent } from "vue";
+import { defineComponent, defineAsyncComponent, ref } from "vue";
+import axios from "axios";
+import { notify } from "@/services/notify";
+import { formatValidationErrors } from "@/services/validation";
+import { UserDataI } from "@/services/users";
 
 export default defineComponent({
   components: {
@@ -18,14 +23,30 @@ export default defineComponent({
     )
   },
   setup() {
-    return {};
+    const validationErrors = ref({});
+
+    function create(userData: UserDataI) {
+      axios
+        .post(`${process.env.VUE_APP_API_DOMAIN}/users/`, userData)
+        .then(() => {
+          validationErrors.value = {};
+          userData.clear();
+          notify.success("User created successfully!");
+        })
+        .catch(error => {
+          validationErrors.value = {};
+          console.error(error);
+          notify.error("User was not created!");
+          if (error.response.status === 422) {
+            validationErrors.value = formatValidationErrors(
+              error.response.data.errors
+            );
+          }
+        });
+    }
+    return { create, validationErrors };
   }
 });
 </script>
 
-<style>
-.create-form {
-  max-width: 300px;
-  margin: auto;
-}
-</style>
+<style scoped></style>

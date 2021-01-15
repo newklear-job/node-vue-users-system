@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submit" class="register-form">
+  <form @submit.prevent="submit" class="user-form">
     <div class="form-group">
       <label for="email">Email</label>
       <input
@@ -130,7 +130,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.register-form {
+.user-form {
   max-width: 300px;
   margin: auto;
 }
