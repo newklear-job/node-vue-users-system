@@ -1,8 +1,13 @@
 <template>
-  <UserForm
-    @formSubmit="register"
-    :validation-errors="validationErrors"
-  ></UserForm>
+  <UserForm @formSubmit="register" :validation-errors="validationErrors">
+    <template v-slot:controls>
+      <div class="form-group">
+        <button type="submit" class="btn btn-success">
+          Register
+        </button>
+      </div>
+    </template>
+  </UserForm>
 </template>
 
 <script lang="ts">
@@ -23,7 +28,6 @@ export default defineComponent({
     const validationErrors = ref({});
 
     function register(userData: UserDataI) {
-      console.log("here", userData);
       axios
         .post(`${process.env.VUE_APP_API_DOMAIN}/register`, userData)
         .then(async response => {

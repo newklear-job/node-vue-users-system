@@ -101,11 +101,8 @@
         {{ validationErrors.password_confirmation }}
       </p>
     </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-success">
-        Register
-      </button>
-    </div>
+
+    <slot name="controls"></slot>
   </form>
 </template>
 
