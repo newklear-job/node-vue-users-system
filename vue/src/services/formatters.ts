@@ -12,7 +12,7 @@ const formatters = {
     if (value === "f") {
       return i18n.$t("users.female");
     }
-    i18n.$t("users.unknown");
+    return i18n.$t("users.unknown");
   },
   dateTime(value: string) {
     return moment.utc(value).format("YYYY-MM-DD HH:mm:ss");
