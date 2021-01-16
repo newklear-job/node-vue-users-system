@@ -19,7 +19,8 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-explicit-any": ["warn"],
     "@typescript-eslint/no-use-before-define": ["off"],
-    "@typescript-eslint/camelcase": ["warn"]
+    "@typescript-eslint/camelcase": ["warn"],
+    "@typescript-eslint/ban-ts-ignore": ["off"]
   },
   overrides: [
     {

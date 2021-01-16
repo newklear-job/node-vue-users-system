@@ -152,7 +152,16 @@ export default defineComponent({
       getUsers();
     });
 
-    return { users, deleteUser, formatters };
+    const pagination = {
+      currentPage: 1,
+      totalPages: 10,
+      pageChangeHandler: function(selectedPage: number) {
+        console.log(this);
+        this.currentPage = selectedPage;
+      }
+    };
+
+    return { users, deleteUser, formatters, pagination };
   }
 });
 </script>
