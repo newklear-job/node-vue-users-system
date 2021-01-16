@@ -40,31 +40,26 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useRoute } from "vue-router";
-import axios from "axios";
-import { notify } from "@/services/notify";
 import { useFormatters } from "@/services/formatters";
+import { getUser } from "@/services/users";
 export default defineComponent({
   name: "UserShow",
   setup() {
     const formatters = useFormatters();
+
     const user = ref({});
 
     const route = useRoute();
-    const userId = route.params.id;
+    const userId = route.params.id as string;
 
-    function getUser() {
-      axios
-        .get(`${process.env.VUE_APP_API_DOMAIN}/users/${userId}`)
-        .then(response => {
-          user.value = response.data;
-        })
-        .catch(error => {
-          console.error(error);
-          notify.error("Unable ti receive user's data");
-        });
-    }
+    getUser(userId)
+      .then(userResponse => {
+        user.value = userResponse;
+      })
+      .catch(_error => {
+        //
+      });
 
-    getUser();
     return { formatters, user };
   }
 });

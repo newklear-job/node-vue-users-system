@@ -22,6 +22,7 @@ import axios from "axios";
 import { useRoute } from "vue-router";
 import { notify } from "@/services/notify";
 import { formatValidationErrors } from "@/services/validation";
+import { getUser } from "@/services/users";
 
 export default defineComponent({
   components: {
@@ -31,7 +32,7 @@ export default defineComponent({
     const validationErrors = ref({});
 
     const route = useRoute();
-    const userId = route.params.id;
+    const userId = route.params.id as string;
 
     const initialUserData = ref(new UserData());
     const userRetrieved = ref(false);
@@ -56,19 +57,14 @@ export default defineComponent({
         });
     }
 
-    function getUser() {
-      axios
-        .get(`${process.env.VUE_APP_API_DOMAIN}/users/${userId}`)
-        .then(response => {
-          initialUserData.value.setValues(response.data);
-          userRetrieved.value = true;
-        })
-        .catch(error => {
-          console.error(error);
-          notify.error("Unable to receive user's data");
-        });
-    }
-    getUser();
+    getUser(userId)
+      .then(userResponse => {
+        initialUserData.value.setValues(userResponse);
+        userRetrieved.value = true;
+      })
+      .catch(_error => {
+        //
+      });
 
     return { validationErrors, update, userRetrieved, initialUserData };
   }
