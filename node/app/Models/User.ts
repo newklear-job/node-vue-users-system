@@ -2,8 +2,6 @@ import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
 import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm'
 
-
-
 export default class User extends BaseModel {
   @column({ isPrimary: true })
   public id: number
@@ -14,7 +12,11 @@ export default class User extends BaseModel {
   @column()
   public last_name: string
 
-  @column()
+  @column({
+    serialize: (value?: string) => {
+      return value ? value : 'i'
+    },
+  })
   public gender: string
 
   @column()
