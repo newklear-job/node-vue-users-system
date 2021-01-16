@@ -108,7 +108,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
-import { UserData } from "@/services/users";
+import { UserData } from "@/entities/userData";
 
 export default defineComponent({
   props: {

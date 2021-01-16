@@ -18,7 +18,7 @@ import { formatValidationErrors } from "@/services/validation";
 import { Auth } from "@/services/authorization";
 import { useRouter } from "vue-router";
 import UserForm from "@/components/Users/Form.vue";
-import { UserDataI } from "@/services/users";
+import { UserDataI } from "@/entities/userData";
 
 export default defineComponent({
   components: { UserForm },

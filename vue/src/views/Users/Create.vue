@@ -14,7 +14,7 @@ import { defineComponent, defineAsyncComponent, ref } from "vue";
 import axios from "axios";
 import { notify } from "@/services/notify";
 import { formatValidationErrors } from "@/services/validation";
-import { UserDataI } from "@/services/users";
+import { UserDataI } from "@/entities/userData";
 
 export default defineComponent({
   components: {

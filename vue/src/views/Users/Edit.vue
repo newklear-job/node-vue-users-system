@@ -17,7 +17,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import UserForm from "@/components/Users/Form.vue";
-import { UserData, UserDataI } from "@/services/users";
+import { UserData, UserDataI } from "@/entities/userData";
 import axios from "axios";
 import { useRoute } from "vue-router";
 import { notify } from "@/services/notify";
