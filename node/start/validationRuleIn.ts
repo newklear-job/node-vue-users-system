@@ -11,7 +11,7 @@ import { validator } from '@ioc:Adonis/Core/Validator'
 
 validator.rule(
   'in',
-  (value, [{ acceptableValues }], { pointer, arrayExpressionPointer, errorReporter }) => {
+  (value, [{ acceptableValues }], { pointer, arrayExpressionPointer, errorReporter, mutate }) => {
     if (typeof value !== 'string') {
       return
     }
@@ -23,6 +23,12 @@ validator.rule(
         `Field is not in acceptable values: ${acceptableValues.toString()}`,
         arrayExpressionPointer
       )
+      return
     }
+
+    if (value === 'i') {
+      value = null
+    }
+    mutate(value)
   }
 )

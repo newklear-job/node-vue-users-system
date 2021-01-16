@@ -48,7 +48,7 @@
           v-model="userData.gender"
           type="radio"
           name="gender"
-          value=""
+          value="i"
         />Incognito
       </label>
 
