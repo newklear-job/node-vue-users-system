@@ -37,7 +37,6 @@ export default defineComponent({
     const userRetrieved = ref(false);
 
     function update(userData: UserDataI) {
-      //todo: gender is not updated in case of "Incognito" option (gender is removed after back-end validation step).
       axios
         .put(`${process.env.VUE_APP_API_DOMAIN}/users/${userId}`, userData)
         .then(response => {
