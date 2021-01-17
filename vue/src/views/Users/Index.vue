@@ -106,31 +106,66 @@
           </tr>
         </tbody>
       </table>
+
+      <div class="pagination float-right">
+        <pagination
+          v-model="pagination.current_page"
+          :records="pagination.total"
+          :per-page="pagination.per_page"
+          @paginate="pagination.pageChangeHandler"
+        ></pagination>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onActivated } from "vue";
+import { defineComponent, ref, onActivated, reactive } from "vue";
 import axios from "axios";
 import { useI18n } from "@/i18n";
 import { useFormatters } from "@/services/formatters";
+// @ts-ignore
+import Pagination from "v-pagination-3";
+import { useRouter, useRoute } from "vue-router";
+import { notify } from "@/services/notify";
 
 export default defineComponent({
+  components: {
+    Pagination
+  },
   setup() {
     const i18n = useI18n();
     const formatters = useFormatters();
+    const router = useRouter();
+    const route = useRoute();
 
     const users = ref([]);
 
+    const pagination = reactive({
+      current_page: route.query.page ? parseInt(route.query.page as string) : 1,
+      total: 0,
+      per_page: 0,
+      pageChangeHandler: async function(selectedPage: number) {
+        pagination.current_page = selectedPage;
+        await router.push({ query: { page: pagination.current_page } });
+        getUsers();
+      }
+    });
+
     function getUsers() {
       axios
-        .get(`${process.env.VUE_APP_API_DOMAIN}/users`)
+        .get(`${process.env.VUE_APP_API_DOMAIN}/users`, {
+          params: route.query
+        })
         .then(response => {
           users.value = response.data.data;
+          pagination.current_page = response.data.meta.current_page;
+          pagination.per_page = response.data.meta.per_page;
+          pagination.total = response.data.meta.total;
         })
         .catch(error => {
           console.error(error);
+          notify.error("Could not get users!");
         });
     }
 
@@ -141,25 +176,18 @@ export default defineComponent({
       axios
         .delete(`${process.env.VUE_APP_API_DOMAIN}/users/${userId}`)
         .then(_response => {
+          notify.success("User deleted successfully!");
           getUsers();
         })
         .catch(error => {
           console.error(error);
+          notify.error("Could not delete user!");
         });
     }
 
     onActivated(() => {
       getUsers();
     });
-
-    const pagination = {
-      currentPage: 1,
-      totalPages: 10,
-      pageChangeHandler: function(selectedPage: number) {
-        console.log(this);
-        this.currentPage = selectedPage;
-      }
-    };
 
     return { users, deleteUser, formatters, pagination };
   }

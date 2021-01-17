@@ -31,7 +31,7 @@ export default class StoreUserValidator {
     password: schema.string({}, [rules.minLength(4), rules.maxLength(10), rules.confirmed()]),
     first_name: schema.string({}, [rules.minLength(1), rules.maxLength(15)]),
     last_name: schema.string({}, [rules.minLength(1), rules.maxLength(15)]),
-    gender: schema.string.optional({}, [rules.in({ acceptableValues: ['m', 'f'] })]),
+    gender: schema.string({}, [rules.in({ acceptableValues: ['i', 'm', 'f'] })]),
   })
 
   /**

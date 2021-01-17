@@ -17,6 +17,7 @@
     "moment": "^2.29.1",
     "stylus": "^0.54.8",
     "stylus-loader": "^3.0.2",
+    "v-pagination-3": "^0.1.2",
     "vue": "^3.0.0",
     "vue-cookie-next": "^1.0.3",
     "vue-router": "^4.0.0-0",
