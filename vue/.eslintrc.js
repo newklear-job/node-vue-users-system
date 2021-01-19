@@ -13,9 +13,12 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2020
   },
+  plugins: ["no-autofix"],
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+    "prefer-const": ["off"],
+    "no-autofix/prefer-const": ["warn"],
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-explicit-any": ["warn"],
     "@typescript-eslint/no-use-before-define": ["off"],

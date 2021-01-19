@@ -21,6 +21,7 @@
             <th>
               <label
                 ><input
+                  v-model="filters.id"
                   type="text"
                   class="form-control"
                   placeholder="Search by id"
@@ -29,6 +30,7 @@
             <th>
               <label
                 ><input
+                  v-model="filters.email"
                   type="text"
                   class="form-control"
                   placeholder="Search by email"
@@ -37,6 +39,7 @@
             <th>
               <label
                 ><input
+                  v-model="filters.first_name"
                   type="text"
                   class="form-control"
                   placeholder="Search by first name"
@@ -45,22 +48,26 @@
             <th>
               <label
                 ><input
+                  v-model="filters.last_name"
                   type="text"
                   class="form-control"
                   placeholder="Search by last name"
               /></label>
             </th>
             <th>
-              <label
-                ><input
-                  type="text"
-                  class="form-control"
-                  placeholder="Search by gender"
-              /></label>
+              <label>
+                <select v-model="filters.gender" class="form-control">
+                  <option value="">All</option>
+                  <option value="i">{{ formatters.gender("i") }}</option>
+                  <option value="m">{{ formatters.gender("m") }}</option>
+                  <option value="f">{{ formatters.gender("f") }}</option>
+                </select>
+              </label>
             </th>
             <th>
               <label
                 ><input
+                  v-model="filters.created_at"
                   type="text"
                   class="form-control"
                   placeholder="Search by create at"
@@ -69,6 +76,7 @@
             <th>
               <label
                 ><input
+                  v-model="filters.updated_at"
                   type="text"
                   class="form-control"
                   placeholder="Search by updated at"
@@ -120,14 +128,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onActivated, reactive } from "vue";
-import axios from "axios";
+import { defineComponent, ref, onActivated, reactive, watch } from "vue";
+import axios, { CancelTokenSource } from "axios";
 import { useI18n } from "@/i18n";
 import { useFormatters } from "@/services/formatters";
 // @ts-ignore
 import Pagination from "v-pagination-3";
 import { useRouter, useRoute } from "vue-router";
 import { notify } from "@/services/notify";
+import _ from "lodash";
 
 export default defineComponent({
   components: {
@@ -147,27 +156,53 @@ export default defineComponent({
       per_page: 0,
       pageChangeHandler: async function(selectedPage: number) {
         pagination.current_page = selectedPage;
-        await router.push({ query: { page: pagination.current_page } });
+        await updateQueryParams();
         getUsers();
       }
     });
 
-    function getUsers() {
+    const filters = reactive({
+      id: route.query.id ?? "",
+      email: route.query.email ?? "",
+      first_name: route.query.first_name ?? "",
+      last_name: route.query.last_name ?? "",
+      gender: route.query.gender ?? "",
+      created_at: route.query.created_at ?? "",
+      updated_at: route.query.updated_at ?? ""
+    });
+
+    const updateQueryParams = () => {
+      const usedParams = _.pickBy(filters, _.identity);
+      if (pagination.current_page > 1) {
+        usedParams.page = pagination.current_page.toString();
+      }
+      return router.push({ query: usedParams });
+    };
+
+    let cancelToken: CancelTokenSource | null = null;
+    const getUsers = () => {
+      if (cancelToken) {
+        cancelToken.cancel();
+      }
+      cancelToken = axios.CancelToken.source();
       axios
         .get(`${process.env.VUE_APP_API_DOMAIN}/users`, {
+          cancelToken: cancelToken.token,
           params: route.query
         })
         .then(response => {
           users.value = response.data.data;
-          pagination.current_page = response.data.meta.current_page;
-          pagination.per_page = response.data.meta.per_page;
-          pagination.total = response.data.meta.total;
+          Object.assign(pagination, response.data.meta);
         })
         .catch(error => {
+          if (axios.isCancel(error)) {
+            console.log("cancelled request");
+            return;
+          }
           console.error(error);
           notify.error("Could not get users!");
         });
-    }
+    };
 
     function deleteUser(userId: number) {
       if (!confirm(i18n.$t("users.deleteConfirmation"))) {
@@ -180,7 +215,7 @@ export default defineComponent({
           getUsers();
         })
         .catch(error => {
-          console.error(error);
+          console.log(error);
           notify.error("Could not delete user!");
         });
     }
@@ -189,7 +224,12 @@ export default defineComponent({
       getUsers();
     });
 
-    return { users, deleteUser, formatters, pagination };
+    watch(filters, async () => {
+      await updateQueryParams();
+      getUsers();
+    });
+
+    return { users, filters, deleteUser, formatters, pagination };
   }
 });
 </script>
@@ -197,12 +237,27 @@ export default defineComponent({
 <style>
 table,
 th,
-td {
+td,
+tr {
   border: 1px solid black;
   border-collapse: collapse;
+  width: 100%;
+  white-space: nowrap;
+  padding: 5px;
 }
 
 table {
   margin: 0 auto; /* or margin: 0 auto 0 auto */
+}
+
+select {
+  max-width: 100%;
+}
+
+td {
+  min-width: 100px;
+}
+select:focus {
+  width: auto;
 }
 </style>

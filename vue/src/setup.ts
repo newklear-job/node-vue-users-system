@@ -20,6 +20,7 @@ function setup(_app: App) {
   axios.interceptors.response.use(undefined, function(error) {
     return new Promise(function(resolve, reject) {
       if (
+        error.response &&
         error.response.status === 401 &&
         error.config &&
         !error.config.__isRetryRequest
