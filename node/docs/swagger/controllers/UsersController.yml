@@ -11,9 +11,65 @@
         name: page
         schema:
           type: integer
-        required: true
+        required: false
         description: Number of page
         example: 1
+
+      - in: query
+        name: id
+        schema:
+          type: integer
+        required: false
+        description: Filter by id
+        example: 1
+
+      - in: query
+        name: email
+        schema:
+          type: string
+        required: false
+        description: Filter by part of email
+        example: "n@admin.adm"
+
+      - in: query
+        name: first_name
+        schema:
+          type: string
+        required: false
+        description: Filter by part of first name
+        example: firstNa
+
+      - in: query
+        name: last_name
+        schema:
+          type: string
+        required: false
+        description: Filter by part of last_name
+        example: lastNa
+
+      - in: query
+        name: gender
+        schema:
+          type: string
+          enum: [i, f, m]
+        required: false
+        description: Filter by gender (Incognito, male, female)
+        example: i
+
+      - in: query
+        name: created_at
+        schema:
+          type: string
+        required: false
+        description: Filter by created_at. Will show all recores with created_at more than specified.
+        example: "2020-12-19 20:0"
+      - in: query
+        name: updated_at
+        schema:
+          type: string
+        required: false
+        description: Filter by updated_at. Will show all recores with created_at more than specified.
+        example: "2020-01-16 20:0"
     responses:
       200:
         description: Get all users
