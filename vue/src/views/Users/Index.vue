@@ -88,9 +88,9 @@
         <tbody>
           <tr v-for="user in users" :key="user.id">
             <td>{{ user.id }}</td>
+            <td>{{ user.email }}</td>
             <td>{{ user.first_name }}</td>
             <td>{{ user.last_name }}</td>
-            <td>{{ user.email }}</td>
             <td>{{ formatters.gender(user.gender) }}</td>
             <td>{{ formatters.dateTime(user.created_at) }}</td>
             <td>{{ formatters.dateTime(user.updated_at) }}</td>
@@ -225,6 +225,7 @@ export default defineComponent({
     });
 
     watch(filters, async () => {
+      pagination.current_page = 1;
       await updateQueryParams();
       getUsers();
     });
